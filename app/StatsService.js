@@ -1,7 +1,7 @@
-var container = null;
-var genderSelect = null;
-var weightInput = null;
-var goalSelect = null;
+let container = null;
+let genderSelect = null;
+let weightInput = null;
+let goalSelect = null;
 
 class StatsService {
 
