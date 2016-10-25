@@ -7,5 +7,5 @@ import statsService from './StatsService';
 
     statsService.render(appContainer);
 
-	$('body').append(appContainer);
+	document.body.append(appContainer);
 })();
