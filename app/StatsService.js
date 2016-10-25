@@ -60,7 +60,7 @@ class StatsService {
     }
 
     show() {
-
+        container.style.display = '';
     }
 }
 
