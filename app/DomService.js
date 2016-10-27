@@ -1,5 +1,19 @@
 
 class DomService {
+    createRow() {
+        let row = document.createElement('div');
+        row.className = 'row';
+
+        return row;
+    }
+
+    createColumn() {
+        let column = document.createElement('div');
+        column.className = 'col-xs-12 col-md-6';
+
+        return column;
+    }
+
     createAlert(text) {
         let alert = document.createElement('div');
         alert.className = 'alert alert-danger';
@@ -14,6 +28,21 @@ class DomService {
         group.className = 'form-group';
 
         return group;
+    }
+
+    createInputGroup() {
+        let group = document.createElement('div');
+        group.className = 'input-group';
+
+        return group;
+    }
+
+    createInputGroupAddOn(text) {
+        let addOn = document.createElement('span');
+        addOn.className = 'input-group-addon';
+        addOn.innerText = text;
+
+        return addOn;
     }
 
     createLabel(id, text) {

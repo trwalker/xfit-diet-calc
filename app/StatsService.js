@@ -10,13 +10,8 @@ let continueButton = null;
 class StatsService {
 
 	render(appContainer) {
-        let row = document.createElement('div');
-        row.className = 'row';
-
-        container = row;
-
-        let column = document.createElement('div');
-        column.className = 'col-xs-12 col-md-6';
+        container = domService.createRow();
+        let column = domService.createColumn();
 
         renderAlert(column);
         renderGenderSelect(column);
@@ -24,8 +19,8 @@ class StatsService {
         renderGoalSelect(column);
         renderContinueButton(column);
 
-        row.appendChild(column);
-        appContainer.appendChild(row);
+        container.appendChild(column);
+        appContainer.appendChild(container);
 	}
 
 	getValues() {
@@ -96,7 +91,6 @@ class StatsService {
 
 function renderAlert(column) {
     alert = domService.createAlert('Please correct highlighted fields');
-
     column.appendChild(alert);
 }
 
@@ -105,7 +99,7 @@ function renderGenderSelect(column) {
     let genderLabel = domService.createLabel('gender-select', 'Gender:');
 
     let options = [
-        { text: 'Select Your Gender...', value: '' },
+        { text: 'Select your gender...', value: '' },
         { text: 'Male', value: 'male' },
         { text: 'Female', value: 'female' },
     ];
@@ -114,16 +108,24 @@ function renderGenderSelect(column) {
 
     genderGroup.appendChild(genderLabel);
     genderGroup.appendChild(genderSelect);
+
     column.appendChild(genderGroup);
 }
 
 function renderWeightInput(column) {
     let weightGroup = domService.createFormGroup();
     let weightLabel = domService.createLabel('weight-input', 'Weight:');
+
+    let weightInputGroup = domService.createInputGroup();
     weightInput = domService.createNumberInput('weight-input', 1, 999, 'Enter weight');
+    let weightInputAddOn = domService.createInputGroupAddOn('lbs');
+
+    weightInputGroup.appendChild(weightInput);
+    weightInputGroup.appendChild(weightInputAddOn);
 
     weightGroup.appendChild(weightLabel);
-    weightGroup.appendChild(weightInput);
+    weightGroup.appendChild(weightInputGroup);
+
     column.appendChild(weightGroup);
 }
 
@@ -132,7 +134,7 @@ function renderGoalSelect(column) {
     let goalLabel = domService.createLabel('goal-select', 'Goal:');
 
     let options = [
-        { text: 'Select Gain OR Lose Weight...', value: '' },
+        { text: 'Select gain or lose weight...', value: '' },
         { text: 'Lose Weight', value: 'lose' },
         { text: 'Gain Weight', value: 'gain' },
     ];
@@ -141,6 +143,7 @@ function renderGoalSelect(column) {
 
     goalGroup.appendChild(goalLabel);
     goalGroup.appendChild(goalSelect);
+
     column.appendChild(goalGroup);
 }
 
@@ -149,17 +152,32 @@ function renderContinueButton(column) {
     continueButton = domService.createButtonInput('stats-button', 'CONTINUE');
 
     buttonGroup.appendChild(continueButton);
+
     column.appendChild(buttonGroup);
 }
 
 function setErrorState(formControl) {
-    let formGroup = formControl.parentNode;
-    formGroup.className = 'form-group has-error';
+    let parent = formControl.parentNode;
+
+    for(let i = 0; i < 2; i++) {
+        if(parent.className === 'form-group') {
+            parent.className = 'form-group has-error';
+            break;
+        }
+        parent = parent.parentNode;
+    }
 }
 
 function clearErrorState(formControl) {
-    let formGroup = formControl.parentNode;
-    formGroup.className = 'form-group';
+    let parent = formControl.parentNode;
+
+    for(let i = 0; i < 2; i++) {
+        if(parent.className === 'form-group has-error') {
+            parent.className = 'form-group';
+            break;
+        }
+        parent = parent.parentNode;
+    }
 }
 
 let statsService = new StatsService();
