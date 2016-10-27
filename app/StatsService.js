@@ -1,3 +1,5 @@
+import domService from './DomService';
+
 let container = null;
 let alert = null;
 let genderSelect = null;
@@ -93,25 +95,14 @@ class StatsService {
 }
 
 function renderAlert(column) {
-    alert = document.createElement('div');
-    alert.className = 'alert alert-danger';
-    alert.innerText = 'Please correct highlighted fields';
-    alert.style.display = 'none';
+    alert = domService.createAlert('Please correct highlighted fields');
 
     column.appendChild(alert);
 }
 
 function renderGenderSelect(column) {
-    let genderGroup = document.createElement('div');
-    genderGroup.className = 'form-group';
-
-    let genderLabel = document.createElement('label');
-    genderLabel.setAttribute('for', 'gender-select');
-    genderLabel.innerText = 'Gender:';
-
-    genderSelect = document.createElement('select');
-    genderSelect.id = 'gender-select';
-    genderSelect.className = 'form-control';
+    let genderGroup = domService.createFormGroup();
+    let genderLabel = domService.createLabel('gender-select', 'Gender:');
 
     let options = [
         { text: 'Select Your Gender...', value: '' },
@@ -119,15 +110,7 @@ function renderGenderSelect(column) {
         { text: 'Female', value: 'female' },
     ];
 
-    options.forEach((currentOption) => {
-        let option = document.createElement('option');
-        option.text = currentOption.text;
-        option.value = currentOption.value;
-
-        genderSelect.appendChild(option);
-    });
-
-    genderSelect.selectedIndex = 0;
+    genderSelect = domService.createSelectList('gender-select', options);
 
     genderGroup.appendChild(genderLabel);
     genderGroup.appendChild(genderSelect);
@@ -135,38 +118,18 @@ function renderGenderSelect(column) {
 }
 
 function renderWeightInput(column) {
-    let weightGroup = document.createElement('div');
-    weightGroup.className = 'form-group';
+    let weightGroup = domService.createFormGroup();
+    let weightLabel = domService.createLabel('weight-input', 'Weight:');
+    weightInput = domService.createNumberInput('weight-input', 1, 999, 'Enter weight');
 
-    let weightLable = document.createElement('label');
-    weightLable.setAttribute('for', 'weight-input');
-    weightLable.innerText = 'Weight:';
-
-    weightInput = document.createElement('input');
-    weightInput.id = 'weight-input';
-    weightInput.type = 'number';
-    weightInput.className = 'form-control';
-    weightInput.min = 1;
-    weightInput.max = 999;
-    weightInput.maxLength = 3;
-    weightInput.setAttribute('placeholder', 'Enter weight');
-
-    weightGroup.appendChild(weightLable);
+    weightGroup.appendChild(weightLabel);
     weightGroup.appendChild(weightInput);
     column.appendChild(weightGroup);
 }
 
 function renderGoalSelect(column) {
-    let goalGroup = document.createElement('div');
-    goalGroup.className = 'form-group';
-
-    let goalLabel = document.createElement('label');
-    goalLabel.setAttribute('for', 'goal-select');
-    goalLabel.innerText = 'Goal:';
-
-    goalSelect = document.createElement('select');
-    goalSelect.id = 'goal-select';
-    goalSelect.className = 'form-control';
+    let goalGroup = domService.createFormGroup();
+    let goalLabel = domService.createLabel('goal-select', 'Goal:');
 
     let options = [
         { text: 'Select Gain OR Lose Weight...', value: '' },
@@ -174,15 +137,7 @@ function renderGoalSelect(column) {
         { text: 'Gain Weight', value: 'gain' },
     ];
 
-    options.forEach((currentOption) => {
-        let option = document.createElement('option');
-        option.text = currentOption.text;
-        option.value = currentOption.value;
-
-        goalSelect.appendChild(option);
-    });
-
-    goalSelect.selectedIndex = 0;
+    goalSelect = domService.createSelectList('goal-select', options);
 
     goalGroup.appendChild(goalLabel);
     goalGroup.appendChild(goalSelect);
@@ -190,16 +145,8 @@ function renderGoalSelect(column) {
 }
 
 function renderContinueButton(column) {
-    let buttonGroup = document.createElement('div');
-    buttonGroup.className = 'form-group';
-
-    let button = document.createElement('input');
-    button.id = 'stats-button';
-    button.type = 'button';
-    button.className = 'btn btn-default col-xs-12 col-md-4';
-    button.value = 'CONTINUE';
-
-    continueButton = button;
+    let buttonGroup = domService.createFormGroup();
+    continueButton = domService.createButtonInput('stats-button', 'CONTINUE');
 
     buttonGroup.appendChild(continueButton);
     column.appendChild(buttonGroup);
