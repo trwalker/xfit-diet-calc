@@ -23,37 +23,6 @@ class StatsService {
         appContainer.appendChild(container);
 	}
 
-	getValues() {
-        let genderValue = genderSelect.value;
-        let weightValue = parseInt(weightInput.value, 10);
-        let goalValue = goalSelect.value;
-
-        let hasErrors = false;
-
-        if(!isGenderValid(genderValue)) {
-            hasErrors = true;
-        }
-
-        if(!isWeightValid(weightValue)) {
-            hasErrors = true;
-        }
-
-        if(!isGoalValid(goalValue)) {
-            hasErrors = true;
-        }
-
-        toggleAlert(hasErrors);
-
-        return {
-            stats: {
-                gender: genderValue,
-                weight: weightValue,
-                goal: goalValue
-            },
-            hasErrors: hasErrors
-        };
-    }
-
 	hide() {
         container.style.display = 'none';
     }
@@ -62,9 +31,9 @@ class StatsService {
         container.style.display = '';
     }
 
-    buttonClick(callback) {
+    continueClick(callback) {
         continueButton.onclick = () => {
-            callback();
+            callback(getValues());
         }
     }
 }
@@ -72,15 +41,6 @@ class StatsService {
 function renderAlert(column) {
     alert = domService.createAlert('Please complete the highlighted fields');
     column.appendChild(alert);
-}
-
-function toggleAlert(hasErrors) {
-    if(hasErrors) {
-        alert.show();
-    }
-    else {
-        alert.hide();
-    }
 }
 
 function renderGenderSelect(column) {
@@ -143,6 +103,42 @@ function renderContinueButton(column) {
     buttonGroup.appendChild(continueButton);
 
     column.appendChild(buttonGroup);
+}
+
+function getValues() {
+    let genderValue = genderSelect.value;
+    let weightValue = parseInt(weightInput.value, 10);
+    let goalValue = goalSelect.value;
+
+    let hasErrors = false;
+
+    if(!isGenderValid(genderValue)) {
+        hasErrors = true;
+    }
+
+    if(!isWeightValid(weightValue)) {
+        hasErrors = true;
+    }
+
+    if(!isGoalValid(goalValue)) {
+        hasErrors = true;
+    }
+
+    if(hasErrors) {
+        alert.show();
+    }
+    else {
+        alert.hide();
+    }
+
+    return {
+        stats: {
+            gender: genderValue,
+            weight: weightValue,
+            goal: goalValue
+        },
+        hasErrors: hasErrors
+    };
 }
 
 function isGenderValid(genderValue) {

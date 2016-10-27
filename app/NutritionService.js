@@ -2,9 +2,9 @@ import domService from './DomService';
 
 let container = null;
 let alert = null;
-let protein = [];
-let fat = [];
-let carbs = [];
+let proteinInputs = [];
+let fatInputs = [];
+let carbsInputs = [];
 let continueButton = null;
 
 class NutritionService {
@@ -31,6 +31,11 @@ class NutritionService {
         container.style.display = '';
     }
 
+    continueClick(callback) {
+        continueButton.onclick = () => {
+            callback(getValues());
+        }
+    }
 }
 
 function renderAlert(column) {
@@ -50,30 +55,36 @@ function renderNutritionGroup(column, suffix) {
     let label = domService.createLabel(`protein-input-${suffix}`, `Day ${suffix}:`);
 
     let proteinInputGroup = domService.createInputGroup();
+    let proteinInputPrefix = domService.createInputGroupAddOn('protein');
     let proteinInput = domService.createNumberInput(`protein-input-${suffix}`, 1, 999, 'Enter protein');
-    let proteinInputGroupAddOn = domService.createInputGroupAddOn('grams');
+    let proteinInputSuffix = domService.createInputGroupAddOn('grams');
+    proteinInputGroup.appendChild(proteinInputPrefix);
     proteinInputGroup.appendChild(proteinInput);
-    proteinInputGroup.appendChild(proteinInputGroupAddOn);
+    proteinInputGroup.appendChild(proteinInputSuffix);
 
     let carbsGroup = domService.createFormGroup();
 
     let carbsInputGroup = domService.createInputGroup();
+    let carbsInputPrefix = domService.createInputGroupAddOn('carbs');
     let carbsInput = domService.createNumberInput(`carbs-input-${suffix}`, 1, 9999, 'Enter carbs');
-    let carbsInputGroupAddOn = domService.createInputGroupAddOn('grams');
+    let carbsInputGroupSuffix = domService.createInputGroupAddOn('grams');
+    carbsInputGroup.appendChild(carbsInputPrefix);
     carbsInputGroup.appendChild(carbsInput);
-    carbsInputGroup.appendChild(carbsInputGroupAddOn);
+    carbsInputGroup.appendChild(carbsInputGroupSuffix);
 
     let fatGroup = domService.createFormGroup();
 
     let fatInputGroup = domService.createInputGroup();
+    let fatInputGroupPrefix = domService.createInputGroupAddOn('fat');
     let fatInput = domService.createNumberInput(`fat-input-${suffix}`, 1, 999, 'Enter fat');
-    let fatInputGroupAddOn = domService.createInputGroupAddOn('grams');
+    let fatInputGroupSuffix = domService.createInputGroupAddOn('grams');
+    fatInputGroup.appendChild(fatInputGroupPrefix);
     fatInputGroup.appendChild(fatInput);
-    fatInputGroup.appendChild(fatInputGroupAddOn);
+    fatInputGroup.appendChild(fatInputGroupSuffix);
 
-    protein.push(proteinInput);
-    carbs.push(carbsInput);
-    fat.push(fatInput);
+    proteinInputs.push(proteinInput);
+    carbsInputs.push(carbsInput);
+    fatInputs.push(fatInput);
 
     proteinGroup.appendChild(label);
     proteinGroup.appendChild(proteinInputGroup);
@@ -91,6 +102,96 @@ function renderContinueButton(column) {
 
     buttonGroup.appendChild(continueButton);
     column.appendChild(buttonGroup);
+}
+
+function getValues() {
+    let proteinValues = getInputGroupValues(proteinInputs, 1, 999);
+    let fatValues = getInputGroupValues(fatInputs, 1, 999);
+    let carbsValues = getInputGroupValues(carbsInputs, 1, 9999);
+
+    let hasErrors = proteinValues.hasErrors || fatValues.hasErrors || carbsValues.hasErrors;
+
+    if(hasErrors) {
+        alert.show();
+    }
+    else {
+        alert.hide();
+    }
+
+    return {
+        nutrition: {
+            dayOne: {
+                protein: proteinValues.values[0],
+                fat: fatValues.values[0],
+                carbs: carbsValues.values[0]
+            },
+            dayTwo: {
+                protein: proteinValues.values[1],
+                fat: fatValues.values[1],
+                carbs: carbsValues.values[1]
+            },
+            dayThree: {
+                protein: proteinValues.values[2],
+                fat: fatValues.values[2],
+                carbs: carbsValues.values[2]
+            }
+        },
+        hasErrors: hasErrors
+    };
+}
+
+function getInputGroupValues(inputs, min, max) {
+    let values = [
+        parseInt(inputs[0].value),
+        parseInt(inputs[1].value),
+        parseInt(inputs[2].value)
+    ];
+
+    let hasErrors = false;
+
+    values.forEach((currentValue, index) => {
+        let input = inputs[index];
+
+        if (currentValue !== currentValue || (currentValue < min || currentValue > max)) {
+            setErrorState(input);
+            input.value = '';
+            input.setAttribute('placeholder', `Enter a value ${min} through ${max}`);
+
+            hasErrors = true;
+        }
+        else {
+            clearErrorState(input);
+        }
+    });
+
+    return {
+        values: values,
+        hasErrors: hasErrors
+    };
+}
+
+function setErrorState(formControl) {
+    let parent = formControl.parentNode;
+
+    for(let i = 0; i < 2; i++) {
+        if(parent.className === 'form-group') {
+            parent.className = 'form-group has-error';
+            break;
+        }
+        parent = parent.parentNode;
+    }
+}
+
+function clearErrorState(formControl) {
+    let parent = formControl.parentNode;
+
+    for(let i = 0; i < 2; i++) {
+        if(parent.className === 'form-group has-error') {
+            parent.className = 'form-group';
+            break;
+        }
+        parent = parent.parentNode;
+    }
 }
 
 let nutritionService = new NutritionService();

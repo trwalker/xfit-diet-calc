@@ -1,5 +1,6 @@
 import statsService from './StatsService';
 import nutritionService from './NutritionService';
+import planService from './PlanService';
 
 (function() {
 	let appContainer = document.createElement('div');
@@ -8,9 +9,9 @@ import nutritionService from './NutritionService';
 
     statsService.render(appContainer);
     nutritionService.render(appContainer);
+    planService.render(appContainer);
 
-	statsService.buttonClick(() => {
-		let values = statsService.getValues();
+	statsService.continueClick((values) => {
         if(!values.hasErrors) {
             statsService.hide();
             nutritionService.show();
@@ -19,6 +20,16 @@ import nutritionService from './NutritionService';
 
         }
 	});
+
+    nutritionService.continueClick((values) => {
+        if(!values.hasErrors) {
+            nutritionService.hide();
+            planService.show();
+
+            alert(JSON.stringify(values.nutrition));
+
+        }
+    });
 
 	document.body.append(appContainer);
 })();
