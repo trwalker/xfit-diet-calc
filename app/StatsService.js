@@ -25,52 +25,32 @@ class StatsService {
 
 	getValues() {
         let genderValue = genderSelect.value;
-        let weightValue = weightInput.value;
+        let weightValue = parseInt(weightInput.value, 10);
         let goalValue = goalSelect.value;
 
-        let errors = 0;
+        let hasErrors = false;
 
-        if(genderValue.length === 0) {
-            setErrorState(genderSelect);
-            errors++;
-        }
-        else {
-            clearErrorState(genderSelect);
+        if(!isGenderValid(genderValue)) {
+            hasErrors = true;
         }
 
-        let weight = parseInt(weightValue, 10);
-        if(weight !== weight || (weight < 1 || weight > 999)) {
-            setErrorState(weightInput);
-            weightInput.value = '';
-            weightInput.setAttribute('placeholder', 'Please enter a weight 1 through 999');
-            errors++;
-        }
-        else {
-            clearErrorState(weightInput);
+        if(!isWeightValid(weightValue)) {
+            hasErrors = true;
         }
 
-        if(goalValue.length === 0) {
-            setErrorState(goalSelect);
-            errors++;
-        }
-        else {
-            clearErrorState(goalSelect);
+        if(!isGoalValid(goalValue)) {
+            hasErrors = true;
         }
 
-        if(errors > 0) {
-            alert.style.display = '';
-        }
-        else {
-            alert.style.display = 'none';
-        }
+        toggleAlert(hasErrors);
 
         return {
             stats: {
                 gender: genderValue,
-                weight: weight,
+                weight: weightValue,
                 goal: goalValue
             },
-            hasErrors: errors > 0
+            hasErrors: hasErrors
         };
     }
 
@@ -90,8 +70,17 @@ class StatsService {
 }
 
 function renderAlert(column) {
-    alert = domService.createAlert('Please correct highlighted fields');
+    alert = domService.createAlert('Please complete the highlighted fields');
     column.appendChild(alert);
+}
+
+function toggleAlert(hasErrors) {
+    if(hasErrors) {
+        alert.show();
+    }
+    else {
+        alert.hide();
+    }
 }
 
 function renderGenderSelect(column) {
@@ -154,6 +143,42 @@ function renderContinueButton(column) {
     buttonGroup.appendChild(continueButton);
 
     column.appendChild(buttonGroup);
+}
+
+function isGenderValid(genderValue) {
+    if(genderValue.length === 0) {
+        setErrorState(genderSelect);
+        return false;
+    }
+    else {
+        clearErrorState(genderSelect);
+        return true;
+    }
+}
+
+function isWeightValid(weightValue) {
+    if(weightValue !== weightValue || (weightValue < 1 || weightValue > 999)) {
+        setErrorState(weightInput);
+        weightInput.value = '';
+        weightInput.setAttribute('placeholder', 'Please enter a weight 1 through 999');
+
+        return false;
+    }
+    else {
+        clearErrorState(weightInput);
+        return true;
+    }
+}
+
+function isGoalValid(goalValue) {
+    if(goalValue.length === 0) {
+        setErrorState(goalSelect);
+        return false;
+    }
+    else {
+        clearErrorState(goalSelect);
+        return true;
+    }
 }
 
 function setErrorState(formControl) {

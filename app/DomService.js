@@ -20,6 +20,14 @@ class DomService {
         alert.innerText = text;
         alert.style.display = 'none';
 
+        alert.show = function() {
+            this.style.display = '';
+        };
+
+        alert.hide = function() {
+            this.style.display = 'none';
+        };
+
         return alert;
     }
 

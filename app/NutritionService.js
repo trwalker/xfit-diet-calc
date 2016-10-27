@@ -34,7 +34,7 @@ class NutritionService {
 }
 
 function renderAlert(column) {
-    alert = domService.createAlert('Please correct highlighted fields');
+    alert = domService.createAlert('Please complete the highlighted fields');
     column.appendChild(alert);
 }
 
