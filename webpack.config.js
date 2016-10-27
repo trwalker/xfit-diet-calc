@@ -1,5 +1,5 @@
 var config = {
-	entry: ['./app/calc.js'],
+	entry: ['./app/Calc.js'],
 	output: {
 		filename: 'dist/calc.js'
 	},
