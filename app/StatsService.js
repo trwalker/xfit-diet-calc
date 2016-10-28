@@ -11,7 +11,7 @@ class StatsService {
 
 	render(appContainer) {
         container = domService.createRow();
-        let column = domService.createColumn();
+        let column = domService.createColumn(12, 6);
 
         renderAlert(column);
         renderGenderSelect(column);

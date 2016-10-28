@@ -6,7 +6,7 @@ class PlanService {
 
     render(appContainer) {
         container = domService.createRow();
-        let column = domService.createColumn();
+        let tableColumn = domService.createColumn(12, 6);
 
         let nutrition = [
             { protein: 30, fat: 12, carbs: 1200 },
@@ -15,13 +15,16 @@ class PlanService {
         ];
 
         let table = domService.createNutritionTable(nutrition);
+        tableColumn.appendChild(table);
+
+        let downloadColumn = domService.createColumn(12, 12);
 
         let downloadLink = domService.createCsvDownloadLink(nutrition);
+        downloadColumn.appendChild(downloadLink);
 
-        column.appendChild(table);
-        column.appendChild(downloadLink);
+        container.appendChild(tableColumn);
+        container.appendChild(downloadColumn);
 
-        container.appendChild(column);
         appContainer.appendChild(container);
 
         this.hide();
