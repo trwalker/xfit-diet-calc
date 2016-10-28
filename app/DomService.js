@@ -110,7 +110,7 @@ class DomService {
         let headerRow = document.createElement('tr');
 
         let weekHeader = document.createElement('th');
-        weekHeader.innerText = 'Week';
+        weekHeader.innerText = 'Weeks';
 
         let proteinHeader = document.createElement('th');
         proteinHeader.innerText = 'Protein';
@@ -168,6 +168,40 @@ class DomService {
         table.appendChild(tableBody);
 
         return table;
+    }
+
+    createCsvDownloadLink(nutrition) {
+        var csvContent = "data:text/csv;charset=utf-8,";
+
+        let csvHeader = 'weeks,protein,fat,carbs\n';
+        csvContent += csvHeader;
+
+        nutrition.forEach(function(nutritionData, index){
+            let week;
+
+            switch (index) {
+                case 0:
+                    week = '1 & 2';
+                    break;
+                case 1:
+                    week = '3 & 4';
+                    break;
+                case 2:
+                    week = '5 & 6';
+                    break;
+            }
+
+            let csvRow = `${week},${nutritionData.protein},${nutritionData.fat},${nutritionData.carbs}`;
+            csvContent += index < nutrition.length ? csvRow + '\n' : csvRow;
+        });
+
+        let encodedUri = encodeURI(csvContent);
+        let link = document.createElement('a');
+        link.innerText = 'Download';
+        link.setAttribute('href', encodedUri);
+        link.setAttribute('download', 'nutrition.csv');
+
+        return link;
     }
 }
 
