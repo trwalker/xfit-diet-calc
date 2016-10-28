@@ -8,10 +8,13 @@ class PlanService {
         container = domService.createRow();
         let column = domService.createColumn();
 
-        let placeHolder = document.createElement('span');
-        placeHolder.innerText = 'Get er done';
+        let table = domService.createNutritionTable([
+            { protein: 30, fat: 12, carbs: 1200 },
+            { protein: 35, fat: 20, carbs: 1500 },
+            { protein: 40, fat: 24, carbs: 2000 },
+        ]);
 
-        column.appendChild(placeHolder);
+        column.appendChild(table);
 
         container.appendChild(column);
         appContainer.appendChild(container);

@@ -100,6 +100,75 @@ class DomService {
 
         return button;
     }
+
+    createNutritionTable(nutrition) {
+        let table = document.createElement('table');
+        table.className = 'table table-striped';
+
+        let tableHeader = document.createElement('thead');
+
+        let headerRow = document.createElement('tr');
+
+        let weekHeader = document.createElement('th');
+        weekHeader.innerText = 'Week';
+
+        let proteinHeader = document.createElement('th');
+        proteinHeader.innerText = 'Protein';
+
+        let fatHeader = document.createElement('th');
+        fatHeader.innerText = 'Fat';
+
+        let carbsHeader = document.createElement('th');
+        carbsHeader.innerText = 'Carbs';
+
+        headerRow.appendChild(weekHeader);
+        headerRow.appendChild(proteinHeader);
+        headerRow.appendChild(fatHeader);
+        headerRow.appendChild(carbsHeader);
+
+        tableHeader.appendChild(headerRow);
+        table.appendChild(tableHeader);
+
+        let tableBody = document.createElement('tbody');
+
+        nutrition.forEach((nutritionData, index) => {
+            let tableRow = document.createElement('tr');
+
+            let weekCell = document.createElement('th');
+
+            switch (index) {
+                case 0:
+                    weekCell.innerText = '1/2';
+                    break;
+                case 1:
+                    weekCell.innerText = '3/4';
+                    break;
+                case 2:
+                    weekCell.innerText = '5/6';
+                    break;
+            }
+
+            let proteinCell = document.createElement('td');
+            proteinCell.innerText = nutritionData.protein;
+
+            let fatCell = document.createElement('td');
+            fatCell.innerText = nutritionData.fat;
+
+            let carbsCell = document.createElement('td');
+            carbsCell.innerText = nutritionData.carbs;
+
+            tableRow.appendChild(weekCell);
+            tableRow.appendChild(proteinCell);
+            tableRow.appendChild(fatCell);
+            tableRow.appendChild(carbsCell);
+
+            tableBody.appendChild(tableRow);
+        });
+
+        table.appendChild(tableBody);
+
+        return table;
+    }
 }
 
 let domService = new DomService();
