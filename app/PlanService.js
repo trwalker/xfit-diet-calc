@@ -1,25 +1,23 @@
+import calculatorService from './CalculatorService';
 import domService from './DomService';
+
 
 let container = null;
 
 class PlanService {
 
-    render(appContainer) {
+    render(appContainer, stats, nutrition) {
         container = domService.createRow();
         let tableColumn = domService.createColumn(12, 6);
 
-        let nutrition = [
-            { protein: 30, fat: 12, carbs: 1200 },
-            { protein: 35, fat: 20, carbs: 1500 },
-            { protein: 40, fat: 24, carbs: 2000 },
-        ];
+        let plan = calculatorService.calculatePlan(stats, nutrition);
 
-        let table = domService.createNutritionTable(nutrition);
+        let table = domService.createPlanTable(plan);
         tableColumn.appendChild(table);
 
         let downloadColumn = domService.createColumn(12, 12);
 
-        let downloadLink = domService.createCsvDownloadLink(nutrition);
+        let downloadLink = domService.createCsvDownloadLink(plan);
         downloadColumn.appendChild(downloadLink);
 
         container.appendChild(tableColumn);

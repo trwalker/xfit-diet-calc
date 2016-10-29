@@ -1,4 +1,5 @@
 import domService from './DomService';
+import * as inputValues from './InputValues';
 
 let container = null;
 let alert = null;
@@ -49,8 +50,8 @@ function renderGenderSelect(column) {
 
     let options = [
         { text: 'Select your gender...', value: '' },
-        { text: 'Male', value: 'male' },
-        { text: 'Female', value: 'female' },
+        { text: 'Male', value: inputValues.MALE },
+        { text: 'Female', value: inputValues.FEMALE },
     ];
 
     genderSelect = domService.createSelectList('gender-select', options);
@@ -84,8 +85,8 @@ function renderGoalSelect(column) {
 
     let options = [
         { text: 'Select gain or lose weight...', value: '' },
-        { text: 'Lose Weight', value: 'lose' },
-        { text: 'Gain Weight', value: 'gain' },
+        { text: 'Lose Weight', value: inputValues.LOSER },
+        { text: 'Gain Weight', value: inputValues.GAINER },
     ];
 
     goalSelect = domService.createSelectList('goal-select', options);

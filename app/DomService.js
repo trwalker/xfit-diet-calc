@@ -101,7 +101,7 @@ class DomService {
         return button;
     }
 
-    createNutritionTable(nutrition) {
+    createPlanTable(plan) {
         let table = document.createElement('table');
         table.className = 'table table-striped';
 
@@ -131,7 +131,7 @@ class DomService {
 
         let tableBody = document.createElement('tbody');
 
-        nutrition.forEach((nutritionData, index) => {
+        plan.forEach((planItem, index) => {
             let tableRow = document.createElement('tr');
 
             let weekCell = document.createElement('th');
@@ -149,13 +149,13 @@ class DomService {
             }
 
             let proteinCell = document.createElement('td');
-            proteinCell.innerText = nutritionData.protein;
+            proteinCell.innerText = planItem.protein;
 
             let fatCell = document.createElement('td');
-            fatCell.innerText = nutritionData.fat;
+            fatCell.innerText = planItem.fat;
 
             let carbsCell = document.createElement('td');
-            carbsCell.innerText = nutritionData.carbs;
+            carbsCell.innerText = planItem.carbs;
 
             tableRow.appendChild(weekCell);
             tableRow.appendChild(proteinCell);

@@ -7,27 +7,28 @@ import planService from './PlanService';
 	appContainer.id = 'app';
     appContainer.className = 'container';
 
+    let stats;
+    let nutrition;
+
     statsService.render(appContainer);
     nutritionService.render(appContainer);
-    planService.render(appContainer);
 
 	statsService.continueClick((values) => {
         if(!values.hasErrors) {
+            stats = values.stats;
+
             statsService.hide();
             nutritionService.show();
-
-            alert(JSON.stringify(values.stats));
-
         }
 	});
 
     nutritionService.continueClick((values) => {
         if(!values.hasErrors) {
+            nutrition = values.nutrition;
+
             nutritionService.hide();
+            planService.render(appContainer, stats, nutrition);
             planService.show();
-
-            alert(JSON.stringify(values.nutrition));
-
         }
     });
 
