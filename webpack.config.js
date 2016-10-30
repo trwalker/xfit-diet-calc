@@ -1,7 +1,7 @@
 var config = {
-	entry: ['./app/Calc.js'],
+	entry: ['./app/App.js'],
 	output: {
-		filename: 'dist/calc.js'
+		filename: 'dist/app.js'
 	},
 	
 	module: {

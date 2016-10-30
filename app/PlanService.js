@@ -1,14 +1,18 @@
 import calculatorService from './CalculatorService';
 import domService from './DomService';
+import stateService from './StateService';
 
 
 let container = null;
 
 class PlanService {
 
-    render(appContainer, stats, nutrition) {
+    render(appContainer) {
         container = domService.createRow();
         let tableColumn = domService.createColumn(12, 6);
+
+        let stats = stateService.getStats();
+        let nutrition = stateService.getNutrition();
 
         let plan = calculatorService.calculatePlan(stats, nutrition);
 

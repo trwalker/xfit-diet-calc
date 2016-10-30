@@ -1,4 +1,5 @@
 import domService from './DomService';
+import stateService from './StateService';
 import * as inputValues from './InputValues';
 
 let container = null;
@@ -11,13 +12,15 @@ let continueButton = null;
 class StatsService {
 
 	render(appContainer) {
+        let statsState = stateService.getStats();
+
         container = domService.createRow();
         let column = domService.createColumn(12, 6);
 
         renderAlert(column);
-        renderGenderSelect(column);
-        renderWeightInput(column);
-        renderGoalSelect(column);
+        renderGenderSelect(column, statsState);
+        renderWeightInput(column, statsState);
+        renderGoalSelect(column, statsState);
         renderContinueButton(column);
 
         container.appendChild(column);
@@ -44,7 +47,7 @@ function renderAlert(column) {
     column.appendChild(alert);
 }
 
-function renderGenderSelect(column) {
+function renderGenderSelect(column, statsState) {
     let genderGroup = domService.createFormGroup();
     let genderLabel = domService.createLabel('gender-select', 'Gender:');
 
@@ -56,19 +59,31 @@ function renderGenderSelect(column) {
 
     genderSelect = domService.createSelectList('gender-select', options);
 
+    if(statsState.gender) {
+        options.forEach((option, index) => {
+           if(option.value === statsState.gender) {
+               genderSelect.selectedIndex = index;
+           }
+        });
+    }
+
     genderGroup.appendChild(genderLabel);
     genderGroup.appendChild(genderSelect);
 
     column.appendChild(genderGroup);
 }
 
-function renderWeightInput(column) {
+function renderWeightInput(column, statsState) {
     let weightGroup = domService.createFormGroup();
     let weightLabel = domService.createLabel('weight-input', 'Weight:');
 
     let weightInputGroup = domService.createInputGroup();
     weightInput = domService.createNumberInput('weight-input', 1, 999, 'Enter weight');
     let weightInputAddOn = domService.createInputGroupAddOn('lbs');
+
+    if(statsState.weight) {
+        weightInput.value = statsState.weight;
+    }
 
     weightInputGroup.appendChild(weightInput);
     weightInputGroup.appendChild(weightInputAddOn);
@@ -79,7 +94,7 @@ function renderWeightInput(column) {
     column.appendChild(weightGroup);
 }
 
-function renderGoalSelect(column) {
+function renderGoalSelect(column, statsState) {
     let goalGroup = domService.createFormGroup();
     let goalLabel = domService.createLabel('goal-select', 'Goal:');
 
@@ -90,6 +105,14 @@ function renderGoalSelect(column) {
     ];
 
     goalSelect = domService.createSelectList('goal-select', options);
+
+    if(statsState.goal) {
+        options.forEach((option, index) => {
+            if(option.value === statsState.goal) {
+                goalSelect.selectedIndex = index;
+            }
+        });
+    }
 
     goalGroup.appendChild(goalLabel);
     goalGroup.appendChild(goalSelect);
@@ -132,14 +155,13 @@ function getValues() {
         alert.hide();
     }
 
-    return {
-        stats: {
-            gender: genderValue,
-            weight: weightValue,
-            goal: goalValue
-        },
-        hasErrors: hasErrors
-    };
+    stateService.setStats({
+        gender: genderValue,
+        weight: weightValue,
+        goal: goalValue
+    });
+
+    return hasErrors;
 }
 
 function isGenderValid(genderValue) {

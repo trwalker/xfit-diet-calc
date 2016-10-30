@@ -1,4 +1,5 @@
 import domService from './DomService';
+import stateService from './StateService';
 
 let container = null;
 let alert = null;
@@ -13,8 +14,10 @@ class NutritionService {
         container = domService.createRow();
         let column = domService.createColumn(12, 6);
 
+        let nutrition = stateService.getNutrition();
+
         renderAlert(column);
-        renderInputs(column);
+        renderInputs(column, nutrition);
         renderContinueButton(column);
 
         container.appendChild(column);
@@ -43,13 +46,13 @@ function renderAlert(column) {
     column.appendChild(alert);
 }
 
-function renderInputs(column) {
-    renderNutritionGroup(column, 'one');
-    renderNutritionGroup(column, 'two');
-    renderNutritionGroup(column, 'three');
+function renderInputs(column, nutrition) {
+    renderNutritionGroup(column, nutrition.dayOne, 'one');
+    renderNutritionGroup(column, nutrition.dayTwo, 'two');
+    renderNutritionGroup(column, nutrition.dayThree, 'three');
 }
 
-function renderNutritionGroup(column, suffix) {
+function renderNutritionGroup(column, data, suffix) {
     let proteinGroup = domService.createFormGroup();
 
     let label = domService.createLabel(`protein-input-${suffix}`, `Day ${suffix}:`);
@@ -58,6 +61,11 @@ function renderNutritionGroup(column, suffix) {
     let proteinInputPrefix = domService.createInputGroupAddOn('protein');
     let proteinInput = domService.createNumberInput(`protein-input-${suffix}`, 1, 999, 'Enter protein');
     let proteinInputSuffix = domService.createInputGroupAddOn('grams');
+
+    if(data.protein) {
+        proteinInput.value = data.protein;
+    }
+
     proteinInputGroup.appendChild(proteinInputPrefix);
     proteinInputGroup.appendChild(proteinInput);
     proteinInputGroup.appendChild(proteinInputSuffix);
@@ -68,6 +76,11 @@ function renderNutritionGroup(column, suffix) {
     let carbsInputPrefix = domService.createInputGroupAddOn('carbs');
     let carbsInput = domService.createNumberInput(`carbs-input-${suffix}`, 1, 9999, 'Enter carbs');
     let carbsInputGroupSuffix = domService.createInputGroupAddOn('grams');
+
+    if(data.carbs) {
+        carbsInput.value = data.carbs;
+    }
+
     carbsInputGroup.appendChild(carbsInputPrefix);
     carbsInputGroup.appendChild(carbsInput);
     carbsInputGroup.appendChild(carbsInputGroupSuffix);
@@ -78,6 +91,11 @@ function renderNutritionGroup(column, suffix) {
     let fatInputGroupPrefix = domService.createInputGroupAddOn('fat');
     let fatInput = domService.createNumberInput(`fat-input-${suffix}`, 1, 999, 'Enter fat');
     let fatInputGroupSuffix = domService.createInputGroupAddOn('grams');
+
+    if(data.fat) {
+        fatInput.value = data.fat;
+    }
+
     fatInputGroup.appendChild(fatInputGroupPrefix);
     fatInputGroup.appendChild(fatInput);
     fatInputGroup.appendChild(fatInputGroupSuffix);
@@ -118,26 +136,25 @@ function getValues() {
         alert.hide();
     }
 
-    return {
-        nutrition: {
-            dayOne: {
-                protein: proteinValues.values[0],
-                fat: fatValues.values[0],
-                carbs: carbsValues.values[0]
-            },
-            dayTwo: {
-                protein: proteinValues.values[1],
-                fat: fatValues.values[1],
-                carbs: carbsValues.values[1]
-            },
-            dayThree: {
-                protein: proteinValues.values[2],
-                fat: fatValues.values[2],
-                carbs: carbsValues.values[2]
-            }
+    stateService.setNutrition({
+        dayOne: {
+            protein: proteinValues.values[0],
+            fat: fatValues.values[0],
+            carbs: carbsValues.values[0]
         },
-        hasErrors: hasErrors
-    };
+        dayTwo: {
+            protein: proteinValues.values[1],
+            fat: fatValues.values[1],
+            carbs: carbsValues.values[1]
+        },
+        dayThree: {
+            protein: proteinValues.values[2],
+            fat: fatValues.values[2],
+            carbs: carbsValues.values[2]
+        }
+    });
+
+    return hasErrors;
 }
 
 function getInputGroupValues(inputs, min, max) {
