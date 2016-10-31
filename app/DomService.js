@@ -1,5 +1,13 @@
 
 class DomService {
+    createAppContainer() {
+        let appContainer = document.createElement('div');
+        appContainer.id = 'app';
+        appContainer.className = 'container';
+
+        return appContainer;
+    }
+
     createRow() {
         let row = document.createElement('div');
         row.className = 'row';
