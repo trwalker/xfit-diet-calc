@@ -5,6 +5,7 @@
   "main": "app/calc.js",
   "scripts": {
     "start": "webpack -d --watch & http-server",
+    "start-prod": "npm run build-prod & http-server",
     "test": "echo \"Error: no test specified\" && exit 1",
     "install-local": "npm install && npm install -g http-server",
     "build-dev": "webpack",
