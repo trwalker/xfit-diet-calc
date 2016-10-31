@@ -19,14 +19,24 @@ class WeightComponent {
         let column = domService.createColumn(12, 6);
 
         renderAlert(column);
-        renderGenderSelect(column, statsState);
-        renderWeightInput(column, statsState);
-        renderGoalSelect(column, statsState);
+
+        let panel = domService.createPanel('About Me');
+        column.appendChild(panel);
+
+        renderGenderSelect(panel.body, statsState);
+        renderWeightInput(panel.body, statsState);
+        renderGoalSelect(panel.body, statsState);
+
         renderContinueButton(column);
 
         container.appendChild(column);
         appContainer.appendChild(container);
 	}
+
+    show() {
+        container.style.display = '';
+        document.body.scrollTop = container.offsetTop - 100;
+    }
 
 	hide() {
         container.style.display = 'none';
@@ -42,7 +52,7 @@ function renderAlert(column) {
     column.appendChild(alert);
 }
 
-function renderGenderSelect(column, statsState) {
+function renderGenderSelect(parent, statsState) {
     let genderGroup = domService.createFormGroup();
     let genderLabel = domService.createLabel('gender-select', 'Gender:');
 
@@ -65,10 +75,10 @@ function renderGenderSelect(column, statsState) {
     genderGroup.appendChild(genderLabel);
     genderGroup.appendChild(genderSelect);
 
-    column.appendChild(genderGroup);
+    parent.appendChild(genderGroup);
 }
 
-function renderWeightInput(column, statsState) {
+function renderWeightInput(parent, statsState) {
     let weightGroup = domService.createFormGroup();
     let weightLabel = domService.createLabel('weight-input', 'Weight:');
 
@@ -86,10 +96,10 @@ function renderWeightInput(column, statsState) {
     weightGroup.appendChild(weightLabel);
     weightGroup.appendChild(weightInputGroup);
 
-    column.appendChild(weightGroup);
+    parent.appendChild(weightGroup);
 }
 
-function renderGoalSelect(column, statsState) {
+function renderGoalSelect(parent, statsState) {
     let goalGroup = domService.createFormGroup();
     let goalLabel = domService.createLabel('goal-select', 'Goal:');
 
@@ -112,7 +122,7 @@ function renderGoalSelect(column, statsState) {
     goalGroup.appendChild(goalLabel);
     goalGroup.appendChild(goalSelect);
 
-    column.appendChild(goalGroup);
+    parent.appendChild(goalGroup);
 }
 
 function renderContinueButton(column) {

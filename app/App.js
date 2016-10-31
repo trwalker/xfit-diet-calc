@@ -4,19 +4,19 @@ import planComponent from './PlanComponent';
 import domService from './DomService';
 
 (function() {
-	let appContainer = domService.createAppContainer();
+    let appContainer = domService.getAppContainer();
 
     weightComponent.render(appContainer);
 
 	weightComponent.setContinueCallback(() => {
         weightComponent.hide();
         nutritionComponent.render(appContainer);
+        nutritionComponent.show();
 	});
 
     nutritionComponent.setContinueCallback(() => {
         nutritionComponent.hide();
         planComponent.render(appContainer);
+        planComponent.show();
     });
-
-	document.body.append(appContainer);
 })();

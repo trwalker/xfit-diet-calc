@@ -1,9 +1,17 @@
 
 class DomService {
-    createAppContainer() {
+    getAppContainer() {
+        let containerList = document.getElementsByClassName('standard-container');
+        if (containerList && containerList.length > 0)
+        {
+            return containerList[0];
+        }
+
         let appContainer = document.createElement('div');
         appContainer.id = 'app';
         appContainer.className = 'container';
+
+        document.body.appendChild(appContainer);
 
         return appContainer;
     }
@@ -30,6 +38,7 @@ class DomService {
 
         alert.show = function() {
             this.style.display = '';
+            document.body.scrollTop = this.parentNode.offsetTop - 100;
         };
 
         alert.hide = function() {
@@ -37,6 +46,29 @@ class DomService {
         };
 
         return alert;
+    }
+
+    createPanel(headerText) {
+        let panel = document.createElement('div');
+        panel.className = 'panel panel-default';
+
+        let panelHeader = document.createElement('div');
+        panelHeader.className = 'panel-heading';
+
+        let panelHeaderText = document.createElement('h5');
+        panelHeaderText.innerText =  headerText;
+
+        panelHeader.appendChild(panelHeaderText);
+
+        let panelBody = document.createElement('div');
+        panelBody.className = 'panel-body';
+
+        panel.appendChild(panelHeader);
+        panel.appendChild(panelBody);
+
+        panel.body = panelBody;
+
+        return panel;
     }
 
     createFormGroup() {
@@ -124,7 +156,7 @@ class DomService {
         proteinHeader.innerText = 'Protein';
 
         let fatHeader = document.createElement('th');
-        fatHeader.innerText = 'Fat';
+        fatHeader.innerHTML = 'Fat&nbsp;&nbsp;&nbsp;';
 
         let carbsHeader = document.createElement('th');
         carbsHeader.innerText = 'Carbs';

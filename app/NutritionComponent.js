@@ -25,6 +25,11 @@ class NutritionComponent {
         appContainer.appendChild(container);
     }
 
+    show() {
+        container.style.display = '';
+        document.body.scrollTop = container.offsetTop - 100;
+    }
+
     hide() {
         container.style.display = 'none';
     }
@@ -40,71 +45,75 @@ function renderAlert(column) {
 }
 
 function renderInputs(column, nutrition) {
-    renderNutritionGroup(column, nutrition.dayOne, 'one');
-    renderNutritionGroup(column, nutrition.dayTwo, 'two');
-    renderNutritionGroup(column, nutrition.dayThree, 'three');
+    renderNutritionGroup(column, nutrition.dayOne, 'One');
+    renderNutritionGroup(column, nutrition.dayTwo, 'Two');
+    renderNutritionGroup(column, nutrition.dayThree, 'Three');
 }
 
 function renderNutritionGroup(column, data, suffix) {
+
+    let panel = domService.createPanel(`Day ${suffix}`);
+
     let proteinGroup = domService.createFormGroup();
 
-    let label = domService.createLabel(`protein-input-${suffix}`, `Day ${suffix}:`);
-
+    let proteinLabel = domService.createLabel(`protein-input-${suffix.toLowerCase()}`, `Protein:`);
     let proteinInputGroup = domService.createInputGroup();
-    let proteinInputPrefix = domService.createInputGroupAddOn('protein');
-    let proteinInput = domService.createNumberInput(`protein-input-${suffix}`, 1, 999, 'Enter protein');
+
+    let proteinInput = domService.createNumberInput(`protein-input-${suffix.toLowerCase()}`, 1, 999, 'Enter protein');
     let proteinInputSuffix = domService.createInputGroupAddOn('grams');
 
     if(data.protein) {
         proteinInput.value = data.protein;
     }
 
-    proteinInputGroup.appendChild(proteinInputPrefix);
     proteinInputGroup.appendChild(proteinInput);
     proteinInputGroup.appendChild(proteinInputSuffix);
+    proteinGroup.appendChild(proteinLabel);
+    proteinGroup.appendChild(proteinInputGroup);
 
     let carbsGroup = domService.createFormGroup();
 
+    let carbsLabel = domService.createLabel(`carbs-input-${suffix.toLowerCase()}`, `Carbs:`);
+
     let carbsInputGroup = domService.createInputGroup();
-    let carbsInputPrefix = domService.createInputGroupAddOn('carbs');
-    let carbsInput = domService.createNumberInput(`carbs-input-${suffix}`, 1, 9999, 'Enter carbs');
+    let carbsInput = domService.createNumberInput(`carbs-input-${suffix.toLowerCase()}`, 1, 9999, 'Enter carbs');
     let carbsInputGroupSuffix = domService.createInputGroupAddOn('grams');
 
     if(data.carbs) {
         carbsInput.value = data.carbs;
     }
 
-    carbsInputGroup.appendChild(carbsInputPrefix);
     carbsInputGroup.appendChild(carbsInput);
     carbsInputGroup.appendChild(carbsInputGroupSuffix);
+    carbsGroup.appendChild(carbsLabel);
+    carbsGroup.appendChild(carbsInputGroup);
 
     let fatGroup = domService.createFormGroup();
 
+    let fatLabel = domService.createLabel(`fat-input-${suffix.toLowerCase()}`, `Fat:`);
+
     let fatInputGroup = domService.createInputGroup();
-    let fatInputGroupPrefix = domService.createInputGroupAddOn('fat');
-    let fatInput = domService.createNumberInput(`fat-input-${suffix}`, 1, 999, 'Enter fat');
+    let fatInput = domService.createNumberInput(`fat-input-${suffix.toLowerCase()}`, 1, 999, 'Enter fat');
     let fatInputGroupSuffix = domService.createInputGroupAddOn('grams');
 
     if(data.fat) {
         fatInput.value = data.fat;
     }
 
-    fatInputGroup.appendChild(fatInputGroupPrefix);
     fatInputGroup.appendChild(fatInput);
     fatInputGroup.appendChild(fatInputGroupSuffix);
+    fatGroup.appendChild(fatLabel);
+    fatGroup.appendChild(fatInputGroup);
 
     proteinInputs.push(proteinInput);
     carbsInputs.push(carbsInput);
     fatInputs.push(fatInput);
 
-    proteinGroup.appendChild(label);
-    proteinGroup.appendChild(proteinInputGroup);
-    carbsGroup.appendChild(carbsInputGroup);
-    fatGroup.appendChild(fatInputGroup);
+    panel.body.appendChild(proteinGroup);
+    panel.body.appendChild(carbsGroup);
+    panel.body.appendChild(fatGroup);
 
-    column.appendChild(proteinGroup);
-    column.appendChild(carbsGroup);
-    column.appendChild(fatGroup);
+    column.appendChild(panel);
 }
 
 function renderContinueButton(column) {

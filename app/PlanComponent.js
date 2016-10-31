@@ -10,23 +10,32 @@ class PlanComponent {
         container = domService.createRow();
         let tableColumn = domService.createColumn(12, 6);
 
+        let panel = domService.createPanel('Your Plan');
+
         let stats = stateService.getStats();
         let nutrition = stateService.getNutrition();
 
         let plan = calculatorService.calculatePlan(stats, nutrition);
 
         let table = domService.createPlanTable(plan);
-        tableColumn.appendChild(table);
+        panel.body.appendChild(table);
 
         let downloadColumn = domService.createColumn(12, 12);
 
         let downloadLink = domService.createCsvDownloadLink(plan);
         downloadColumn.appendChild(downloadLink);
 
+        tableColumn.appendChild(panel);
+
         container.appendChild(tableColumn);
         container.appendChild(downloadColumn);
 
         appContainer.appendChild(container);
+    }
+
+    show() {
+        container.style.display = '';
+        document.body.scrollTop = container.offsetTop - 100;
     }
 
     hide() {
