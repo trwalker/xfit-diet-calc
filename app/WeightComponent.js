@@ -8,8 +8,9 @@ let genderSelect = null;
 let weightInput = null;
 let goalSelect = null;
 let continueButton = null;
+let continueCallback = null;
 
-class StatsService {
+class WeightComponent {
 
 	render(appContainer) {
         let statsState = stateService.getStats();
@@ -31,14 +32,8 @@ class StatsService {
         container.style.display = 'none';
     }
 
-    show() {
-        container.style.display = '';
-    }
-
-    continueClick(callback) {
-        continueButton.onclick = () => {
-            callback(getValues());
-        }
+    setContinueCallback(callback) {
+        continueCallback = callback;
     }
 }
 
@@ -124,12 +119,19 @@ function renderContinueButton(column) {
     let buttonGroup = domService.createFormGroup();
     continueButton = domService.createButtonInput('stats-button', 'CONTINUE');
 
+    continueButton.onclick = () => {
+        let hasErrors = saveValues();
+        if(!hasErrors && continueCallback) {
+            continueCallback();
+        }
+    };
+
     buttonGroup.appendChild(continueButton);
 
     column.appendChild(buttonGroup);
 }
 
-function getValues() {
+function saveValues() {
     let genderValue = genderSelect.value;
     let weightValue = parseInt(weightInput.value, 10);
     let goalValue = goalSelect.value;
@@ -224,6 +226,6 @@ function clearErrorState(formControl) {
     }
 }
 
-let statsService = new StatsService();
+let instance = new WeightComponent();
 
-export default statsService;
+export default instance;

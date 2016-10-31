@@ -2,10 +2,9 @@ import calculatorService from './CalculatorService';
 import domService from './DomService';
 import stateService from './StateService';
 
-
 let container = null;
 
-class PlanService {
+class PlanComponent {
 
     render(appContainer) {
         container = domService.createRow();
@@ -28,20 +27,13 @@ class PlanService {
         container.appendChild(downloadColumn);
 
         appContainer.appendChild(container);
-
-        this.hide();
     }
 
     hide() {
         container.style.display = 'none';
     }
-
-    show() {
-        container.style.display = '';
-    }
-
 }
 
-let planService = new PlanService();
+let instance = new PlanComponent();
 
-export default planService;
+export default instance;

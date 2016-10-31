@@ -91,6 +91,6 @@ function calculateWeekFiveSix(isGainer, weekThreeFour) {
     }
 }
 
-let calculatorService = new CalculatorService();
+let instance = new CalculatorService();
 
-export default calculatorService;
+export default instance;

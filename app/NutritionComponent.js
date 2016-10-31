@@ -7,8 +7,9 @@ let proteinInputs = [];
 let fatInputs = [];
 let carbsInputs = [];
 let continueButton = null;
+let continueCallback = null;
 
-class NutritionService {
+class NutritionComponent {
 
     render(appContainer) {
         container = domService.createRow();
@@ -22,22 +23,14 @@ class NutritionService {
 
         container.appendChild(column);
         appContainer.appendChild(container);
-
-        this.hide();
     }
 
     hide() {
         container.style.display = 'none';
     }
 
-    show() {
-        container.style.display = '';
-    }
-
-    continueClick(callback) {
-        continueButton.onclick = () => {
-            callback(getValues());
-        }
+    setContinueCallback(callback) {
+        continueCallback = callback;
     }
 }
 
@@ -118,11 +111,18 @@ function renderContinueButton(column) {
     let buttonGroup = domService.createFormGroup();
     continueButton = domService.createButtonInput('stats-button', 'CONTINUE');
 
+    continueButton.onclick = () => {
+        let hasErrors = saveValues();
+        if(!hasErrors && continueCallback) {
+            continueCallback();
+        }
+    };
+
     buttonGroup.appendChild(continueButton);
     column.appendChild(buttonGroup);
 }
 
-function getValues() {
+function saveValues() {
     let proteinValues = getInputGroupValues(proteinInputs, 1, 999);
     let fatValues = getInputGroupValues(fatInputs, 1, 999);
     let carbsValues = getInputGroupValues(carbsInputs, 1, 9999);
@@ -211,6 +211,6 @@ function clearErrorState(formControl) {
     }
 }
 
-let nutritionService = new NutritionService();
+let instance = new NutritionComponent();
 
-export default nutritionService;
+export default instance;

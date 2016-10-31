@@ -63,6 +63,6 @@ class StateService {
     }
 }
 
-let stateService = new StateService();
+let instance = new StateService();
 
-export default stateService;
+export default instance;

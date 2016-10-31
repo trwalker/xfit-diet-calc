@@ -220,6 +220,6 @@ class DomService {
     }
 }
 
-let domService = new DomService();
+let instance = new DomService();
 
-export default domService;
+export default instance;

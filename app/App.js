@@ -1,28 +1,22 @@
-import statsService from './StatsService';
-import nutritionService from './NutritionService';
-import planService from './PlanService';
+import weightComponent from './WeightComponent';
+import nutritionComponent from './NutritionComponent';
+import planComponent from './PlanComponent';
 
 (function() {
 	let appContainer = document.createElement('div');
 	appContainer.id = 'app';
     appContainer.className = 'container';
 
-    statsService.render(appContainer);
-    nutritionService.render(appContainer);
+    weightComponent.render(appContainer);
 
-	statsService.continueClick((hasErrors) => {
-        if(!hasErrors) {
-            statsService.hide();
-            nutritionService.show();
-        }
+	weightComponent.setContinueCallback(() => {
+        weightComponent.hide();
+        nutritionComponent.render(appContainer);
 	});
 
-    nutritionService.continueClick((hasErrors) => {
-        if(!hasErrors) {
-            nutritionService.hide();
-            planService.render(appContainer);
-            planService.show();
-        }
+    nutritionComponent.setContinueCallback(() => {
+        nutritionComponent.hide();
+        planComponent.render(appContainer);
     });
 
 	document.body.append(appContainer);
