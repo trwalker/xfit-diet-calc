@@ -35,7 +35,7 @@ class WeightComponent {
 
     show() {
         container.style.display = '';
-        document.body.scrollTop = container.offsetTop - 100;
+        domService.scrollToTop();
     }
 
 	hide() {
