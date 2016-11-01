@@ -13,7 +13,7 @@ class NutritionComponent {
 
     render(appContainer) {
         container = domService.createRow();
-        let column = domService.createColumn(12, 6);
+        let column = domService.createColumn(12, 12);
 
         let nutrition = stateService.getNutrition();
 
@@ -51,6 +51,7 @@ function renderInputs(column, nutrition) {
 }
 
 function renderNutritionGroup(column, data, suffix) {
+    let nutritionColumn = domService.createColumn(12, 6);
 
     let panel = domService.createPanel(`Day ${suffix}`);
 
@@ -113,10 +114,13 @@ function renderNutritionGroup(column, data, suffix) {
     panel.body.appendChild(carbsGroup);
     panel.body.appendChild(fatGroup);
 
-    column.appendChild(panel);
+    nutritionColumn.appendChild(panel);
+    column.appendChild(nutritionColumn);
 }
 
 function renderContinueButton(column) {
+    let buttonColumn = domService.createColumn(12, 12);
+
     let buttonGroup = domService.createFormGroup();
     continueButton = domService.createButtonInput('stats-button', 'CONTINUE');
 
@@ -128,7 +132,9 @@ function renderContinueButton(column) {
     };
 
     buttonGroup.appendChild(continueButton);
-    column.appendChild(buttonGroup);
+
+    buttonColumn.appendChild(buttonGroup);
+    column.appendChild(buttonColumn);
 }
 
 function saveValues() {

@@ -8,7 +8,7 @@ class PlanComponent {
 
     render(appContainer) {
         container = domService.createRow();
-        let tableColumn = domService.createColumn(12, 6);
+        let tableColumn = domService.createColumn(12, 12);
 
         let panel = domService.createPanel('Your Plan');
 
