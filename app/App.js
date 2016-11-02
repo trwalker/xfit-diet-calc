@@ -1,22 +1,43 @@
-import weightComponent from './WeightComponent';
-import nutritionComponent from './NutritionComponent';
-import planComponent from './PlanComponent';
-import domService from './DomService';
+import weightComponent from './components/WeightComponent';
+import nutritionComponent from './components/NutritionComponent';
+import planComponent from './components/PlanComponent';
+import printPlanComponent from './components/PrintPlanComponent';
+import domService from './services/DomService';
 
 (function() {
-    let appContainer = domService.getAppContainer();
+    function render() {
+        let appContainer = domService.getAppContainer();
 
-    weightComponent.render(appContainer);
+        if(appContainer) {
+            renderApplication(appContainer);
+        }
 
-	weightComponent.setContinueCallback(() => {
-        weightComponent.hide();
-        nutritionComponent.render(appContainer);
-        nutritionComponent.show();
-	});
+        let printContainer = domService.getPrintContainer();
 
-    nutritionComponent.setContinueCallback(() => {
-        nutritionComponent.hide();
-        planComponent.render(appContainer);
-        planComponent.show();
-    });
+        if(printContainer) {
+            renderPrintView(printContainer)
+        }
+    }
+
+    function renderApplication(appContainer) {
+        weightComponent.render(appContainer);
+
+        weightComponent.setContinueCallback(() => {
+            weightComponent.hide();
+            nutritionComponent.render(appContainer);
+            nutritionComponent.show();
+        });
+
+        nutritionComponent.setContinueCallback(() => {
+            nutritionComponent.hide();
+            planComponent.render(appContainer);
+            planComponent.show();
+        });
+    }
+
+    function renderPrintView(printContainer) {
+        printPlanComponent.render(printContainer);
+    }
+
+    render();
 })();

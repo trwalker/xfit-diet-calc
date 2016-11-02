@@ -1,6 +1,6 @@
-import domService from './DomService';
-import stateService from './StateService';
-import * as inputValues from './InputValues';
+import domService from '../services/DomService';
+import stateService from '../services/StateService';
+import * as inputValues from '../constants/InputValues';
 
 let container = null;
 let alert = null;

@@ -1,4 +1,4 @@
-import * as inputValues from './InputValues'
+import * as inputValues from '../constants/InputValues'
 
 const MALE_PROTEIN_FACTORS = {
     small: { minWeight: 0, factor: 1.0 },

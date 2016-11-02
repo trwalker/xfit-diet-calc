@@ -1,5 +1,5 @@
-import domService from './DomService';
-import stateService from './StateService';
+import domService from '../services/DomService';
+import stateService from '../services/StateService';
 
 let container = null;
 let alert = null;
