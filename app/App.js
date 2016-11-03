@@ -1,4 +1,4 @@
-import weightComponent from './components/WeightComponent';
+import aboutComponent from './components/AboutComponent';
 import nutritionComponent from './components/NutritionComponent';
 import planComponent from './components/PlanComponent';
 import printPlanComponent from './components/PrintPlanComponent';
@@ -20,10 +20,10 @@ import domService from './services/DomService';
     }
 
     function renderApplication(appContainer) {
-        weightComponent.render(appContainer);
+        aboutComponent.render(appContainer);
 
-        weightComponent.setContinueCallback(() => {
-            weightComponent.hide();
+        aboutComponent.setContinueCallback(() => {
+            aboutComponent.hide();
             nutritionComponent.render(appContainer);
             nutritionComponent.show();
         });

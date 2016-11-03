@@ -10,7 +10,7 @@ let goalSelect = null;
 let continueButton = null;
 let continueCallback = null;
 
-class WeightComponent {
+class AboutComponent {
 
 	render(appContainer) {
         let statsState = stateService.getStats();
@@ -236,6 +236,6 @@ function clearErrorState(formControl) {
     }
 }
 
-let instance = new WeightComponent();
+let instance = new AboutComponent();
 
 export default instance;
