@@ -41,6 +41,8 @@ function calculateWeekOneTwo(isMale, weight, nutrition) {
     let proteinFactor = calculateProteinFactor(isMale, weight);
     let fatFactor = calculateFatFactor(isMale);
 
+    alert(`fat calc: Math.ceil((${fatFactor} * ((${proteinAvg} * 4) + (${carbsAvg} * 4) + (${fatAvg} * 9))) / 9)`);
+
     return {
         protein: Math.ceil(weight * proteinFactor),
         fat: Math.ceil((fatFactor * ((proteinAvg * 4) + (carbsAvg * 4) + (fatAvg * 9))) / 9),
