@@ -13,14 +13,14 @@ let continueCallback = null;
 class AboutComponent {
 
 	render(appContainer) {
-        let statsState = stateService.getStats();
+        const statsState = stateService.getStats();
 
         container = domService.createRow();
-        let column = domService.createColumn(12, 6);
+        const column = domService.createColumn(12, 6);
 
         renderAlert(column);
 
-        let panel = domService.createPanel('About Me');
+        const panel = domService.createPanel('About Me');
         column.appendChild(panel);
 
         renderGenderSelect(panel.body, statsState);
@@ -53,10 +53,10 @@ function renderAlert(column) {
 }
 
 function renderGenderSelect(parent, statsState) {
-    let genderGroup = domService.createFormGroup();
-    let genderLabel = domService.createLabel('gender-select', 'Gender:');
+    const genderGroup = domService.createFormGroup();
+    const genderLabel = domService.createLabel('gender-select', 'Gender:');
 
-    let options = [
+    const options = [
         { text: 'Select your gender...', value: '' },
         { text: 'Male', value: inputValues.MALE },
         { text: 'Female', value: inputValues.FEMALE },
@@ -79,12 +79,12 @@ function renderGenderSelect(parent, statsState) {
 }
 
 function renderWeightInput(parent, statsState) {
-    let weightGroup = domService.createFormGroup();
-    let weightLabel = domService.createLabel('weight-input', 'Weight:');
+    const weightGroup = domService.createFormGroup();
+    const weightLabel = domService.createLabel('weight-input', 'Weight:');
 
-    let weightInputGroup = domService.createInputGroup();
+    const weightInputGroup = domService.createInputGroup();
     weightInput = domService.createNumberInput('weight-input', 1, 999, 'Enter weight');
-    let weightInputAddOn = domService.createInputGroupAddOn('lbs');
+    const weightInputAddOn = domService.createInputGroupAddOn('lbs');
 
     if(statsState.weight) {
         weightInput.value = statsState.weight;
@@ -100,10 +100,10 @@ function renderWeightInput(parent, statsState) {
 }
 
 function renderGoalSelect(parent, statsState) {
-    let goalGroup = domService.createFormGroup();
-    let goalLabel = domService.createLabel('goal-select', 'Goal:');
+    const goalGroup = domService.createFormGroup();
+    const goalLabel = domService.createLabel('goal-select', 'Goal:');
 
-    let options = [
+    const options = [
         { text: 'Select gain or lose weight...', value: '' },
         { text: 'Lose Weight', value: inputValues.LOSER },
         { text: 'Gain Weight', value: inputValues.GAINER },
@@ -126,11 +126,11 @@ function renderGoalSelect(parent, statsState) {
 }
 
 function renderContinueButton(column) {
-    let buttonGroup = domService.createFormGroup();
+    const buttonGroup = domService.createFormGroup();
     continueButton = domService.createButtonInput('stats-button', 'CONTINUE');
 
     continueButton.onclick = () => {
-        let hasErrors = saveValues();
+        const hasErrors = saveValues();
         if(!hasErrors && continueCallback) {
             continueCallback();
         }
@@ -142,9 +142,9 @@ function renderContinueButton(column) {
 }
 
 function saveValues() {
-    let genderValue = genderSelect.value;
-    let weightValue = parseInt(weightInput.value, 10);
-    let goalValue = goalSelect.value;
+    const genderValue = genderSelect.value;
+    const weightValue = parseInt(weightInput.value, 10);
+    const goalValue = goalSelect.value;
 
     let hasErrors = false;
 
@@ -236,6 +236,6 @@ function clearErrorState(formControl) {
     }
 }
 
-let instance = new AboutComponent();
+const instance = new AboutComponent();
 
 export default instance;

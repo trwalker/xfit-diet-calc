@@ -6,13 +6,13 @@ import domService from './services/DomService';
 
 (function() {
     function render() {
-        let appContainer = domService.getAppContainer();
+        const appContainer = domService.getAppContainer();
 
         if(appContainer) {
             renderApplication(appContainer);
         }
 
-        let printContainer = domService.getPrintContainer();
+        const printContainer = domService.getPrintContainer();
 
         if(printContainer) {
             renderPrintView(printContainer)

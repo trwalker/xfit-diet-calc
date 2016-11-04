@@ -10,20 +10,20 @@ const FEMALE_PROTEIN_FACTORS = {
     medium: { minWeight: 170, factor: 0.9 },
     large: { minWeight: 201, factor: 0.8 }
 };
-const MALE_FAT_FACTOR = 0.3;
-const FEMALE_FAT_FACTOR = 0.25;
+const MALE_FAT_FACTOR = 21;
+const FEMALE_FAT_FACTOR = 27;
 
 
 class CalculatorService {
     calculatePlan(stats, nutrition) {
-        let plan = [];
+        const plan = [];
 
-        let isMale = stats.gender === inputValues.MALE;
-        let isGainer = stats.goal === inputValues.GAINER;
+        const isMale = stats.gender === inputValues.MALE;
+        const isGainer = stats.goal === inputValues.GAINER;
 
-        let weekOneTwo = calculateWeekOneTwo(isMale, stats.weight, nutrition);
-        let weekThreeFour = calculateWeekThreeFour(isMale, isGainer, weekOneTwo);
-        let weekFiveSix = calculateWeekFiveSix(isGainer, weekThreeFour);
+        const weekOneTwo = calculateWeekOneTwo(isMale, stats.weight, nutrition);
+        const weekThreeFour = calculateWeekThreeFour(isMale, isGainer, weekOneTwo);
+        const weekFiveSix = calculateWeekFiveSix(isGainer, weekThreeFour);
 
         plan.push(weekOneTwo);
         plan.push(weekThreeFour);
@@ -34,24 +34,50 @@ class CalculatorService {
 }
 
 function calculateWeekOneTwo(isMale, weight, nutrition) {
-    let proteinAvg = Math.ceil((nutrition.dayOne.protein + nutrition.dayTwo.protein + nutrition.dayThree.protein) / 3);
-    let fatAvg = Math.ceil((nutrition.dayOne.fat + nutrition.dayTwo.fat + nutrition.dayThree.fat) / 3);
-    let carbsAvg = Math.ceil((nutrition.dayOne.carbs + nutrition.dayTwo.carbs + nutrition.dayThree.carbs) / 3);
+    const proteinAvg = Math.ceil((nutrition.dayOne.protein + nutrition.dayTwo.protein + nutrition.dayThree.protein) / 3);
+    // const fatAvg = Math.ceil((nutrition.dayOne.fat + nutrition.dayTwo.fat + nutrition.dayThree.fat) / 3);
+    const carbsAvg = Math.ceil((nutrition.dayOne.carbs + nutrition.dayTwo.carbs + nutrition.dayThree.carbs) / 3);
 
-    let proteinFactor = calculateProteinFactor(isMale, weight);
-    let fatFactor = calculateFatFactor(isMale);
+    const proteinFactor = calculateProteinFactor(isMale, weight);
+    const fatFactor = calculateFatFactor(isMale);
 
-    alert(`fat calc: Math.ceil((${fatFactor} * ((${proteinAvg} * 4) + (${carbsAvg} * 4) + (${fatAvg} * 9))) / 9)`);
+    /*****************************************************************
+
+    x = fat week one/two
+    x = (fatFactor * ((proteinAvg * 4) + (carbsAvg * 4) + (9x)) / 9)
+
+     Male:
+     x = (.30 * ((proteinAvg * 4) + (carbsAvg * 4) + (9x)) / 9)
+     9x = .30 * ((proteinAvg * 4) + (carbsAvg * 4) + (9x))
+     9x/.30 = (proteinAvg * 4) + (carbsAvg * 4) + (9x)
+     30x - 9x = (proteinAvg * 4) + (carbsAvg * 4)
+     21x = (proteinAvg * 4) + (carbsAvg * 4)
+
+     x = ((proteinAvg * 4) + (carbsAvg * 4)) / 21
+
+     Female:
+     x = (.25 * ((proteinAvg * 4) + (carbsAvg * 4) + (9x)) / 9)
+     9x = .25 * ((proteinAvg * 4) + (carbsAvg * 4) + (9x))
+     9x/.25 = (proteinAvg * 4) + (carbsAvg * 4) + (9x)
+     36x - 9x = (proteinAvg * 4) + (carbsAvg * 4)
+     27x = (proteinAvg * 4) + (carbsAvg * 4)
+
+     x = ((proteinAvg * 4) + (carbsAvg * 4)) / 27
+
+    Universal Equation
+    x = ((proteinAvg * 4) + (carbsAvg * 4)) / fatFactor
+
+    ******************************************************************/
 
     return {
         protein: Math.ceil(weight * proteinFactor),
-        fat: Math.ceil((fatFactor * ((proteinAvg * 4) + (carbsAvg * 4) + (fatAvg * 9))) / 9),
+        fat: Math.ceil(((proteinAvg * 4) + (carbsAvg * 4)) / fatFactor),
         carbs: carbsAvg
     }
 }
 
 function calculateProteinFactor(isMale, weight) {
-    let proteinFactorData = isMale ? MALE_PROTEIN_FACTORS : FEMALE_PROTEIN_FACTORS;
+    const proteinFactorData = isMale ? MALE_PROTEIN_FACTORS : FEMALE_PROTEIN_FACTORS;
 
     if (weight >= proteinFactorData.large.weight) {
         return proteinFactorData.large.factor;
@@ -93,6 +119,6 @@ function calculateWeekFiveSix(isGainer, weekThreeFour) {
     }
 }
 
-let instance = new CalculatorService();
+const instance = new CalculatorService();
 
 export default instance;

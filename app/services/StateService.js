@@ -17,7 +17,7 @@ class StateService {
     }
 
     getStats() {
-        let statsData = localStorage.getItem(STATS_KEY);
+        const statsData = localStorage.getItem(STATS_KEY);
         if(statsData) {
             return JSON.parse(statsData);
         }
@@ -34,7 +34,7 @@ class StateService {
     }
 
     getNutrition() {
-        let nutritionData = localStorage.getItem(NUTRITION_KEY);
+        const nutritionData = localStorage.getItem(NUTRITION_KEY);
         if(nutritionData) {
             return JSON.parse(nutritionData);
         }
@@ -63,6 +63,6 @@ class StateService {
     }
 }
 
-let instance = new StateService();
+const instance = new StateService();
 
 export default instance;

@@ -4,7 +4,7 @@ import stateService from '../services/StateService';
 
 class PrintPlanComponent {
     render(printContainer) {
-        let row = domService.createRow();
+        const row = domService.createRow();
 
         renderIcon(row);
         renderPlanTable(row);
@@ -16,24 +16,24 @@ class PrintPlanComponent {
 }
 
 function renderIcon(container) {
-    let iconColumn = domService.createColumn(12, 12);
-    let icon = domService.createIcon();
+    const iconColumn = domService.createColumn(12, 12);
+    const icon = domService.createIcon();
 
     iconColumn.appendChild(icon);
     container.appendChild(iconColumn);
 }
 
 function renderPlanTable(container) {
-    let tableColumn = domService.createColumn(12, 12);
+    const tableColumn = domService.createColumn(12, 12);
 
-    let panel = domService.createPanel('Your Plan');
+    const panel = domService.createPanel('Your Plan');
 
-    let stats = stateService.getStats();
-    let nutrition = stateService.getNutrition();
+    const stats = stateService.getStats();
+    const nutrition = stateService.getNutrition();
 
-    let plan = calculatorService.calculatePlan(stats, nutrition);
+    const plan = calculatorService.calculatePlan(stats, nutrition);
 
-    let table = domService.createPlanTable(plan);
+    const table = domService.createPlanTable(plan);
     panel.body.appendChild(table);
 
     tableColumn.appendChild(panel);
@@ -41,6 +41,6 @@ function renderPlanTable(container) {
     container.appendChild(tableColumn);
 }
 
-let instance = new PrintPlanComponent();
+const instance = new PrintPlanComponent();
 
 export default instance;

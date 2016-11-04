@@ -13,9 +13,9 @@ class NutritionComponent {
 
     render(appContainer) {
         container = domService.createRow();
-        let column = domService.createColumn(12, 12);
+        const column = domService.createColumn(12, 12);
 
-        let nutrition = stateService.getNutrition();
+        const nutrition = stateService.getNutrition();
 
         renderAlert(column);
         renderInputs(column, nutrition);
@@ -51,17 +51,17 @@ function renderInputs(column, nutrition) {
 }
 
 function renderNutritionGroup(column, data, suffix) {
-    let nutritionColumn = domService.createColumn(12, 6);
+    const nutritionColumn = domService.createColumn(12, 6);
 
-    let panel = domService.createPanel(`Day ${suffix}`);
+    const panel = domService.createPanel(`Day ${suffix}`);
 
-    let proteinGroup = domService.createFormGroup();
+    const proteinGroup = domService.createFormGroup();
 
-    let proteinLabel = domService.createLabel(`protein-input-${suffix.toLowerCase()}`, `Protein:`);
-    let proteinInputGroup = domService.createInputGroup();
+    const proteinLabel = domService.createLabel(`protein-input-${suffix.toLowerCase()}`, `Protein:`);
+    const proteinInputGroup = domService.createInputGroup();
 
-    let proteinInput = domService.createNumberInput(`protein-input-${suffix.toLowerCase()}`, 1, 999, 'Enter protein');
-    let proteinInputSuffix = domService.createInputGroupAddOn('grams');
+    const proteinInput = domService.createNumberInput(`protein-input-${suffix.toLowerCase()}`, 1, 999, 'Enter protein');
+    const proteinInputSuffix = domService.createInputGroupAddOn('grams');
 
     if(data.protein) {
         proteinInput.value = data.protein;
@@ -72,13 +72,13 @@ function renderNutritionGroup(column, data, suffix) {
     proteinGroup.appendChild(proteinLabel);
     proteinGroup.appendChild(proteinInputGroup);
 
-    let carbsGroup = domService.createFormGroup();
+    const carbsGroup = domService.createFormGroup();
 
-    let carbsLabel = domService.createLabel(`carbs-input-${suffix.toLowerCase()}`, `Carbs:`);
+    const carbsLabel = domService.createLabel(`carbs-input-${suffix.toLowerCase()}`, `Carbs:`);
 
-    let carbsInputGroup = domService.createInputGroup();
-    let carbsInput = domService.createNumberInput(`carbs-input-${suffix.toLowerCase()}`, 1, 9999, 'Enter carbs');
-    let carbsInputGroupSuffix = domService.createInputGroupAddOn('grams');
+    const carbsInputGroup = domService.createInputGroup();
+    const carbsInput = domService.createNumberInput(`carbs-input-${suffix.toLowerCase()}`, 1, 9999, 'Enter carbs');
+    const carbsInputGroupSuffix = domService.createInputGroupAddOn('grams');
 
     if(data.carbs) {
         carbsInput.value = data.carbs;
@@ -89,13 +89,13 @@ function renderNutritionGroup(column, data, suffix) {
     carbsGroup.appendChild(carbsLabel);
     carbsGroup.appendChild(carbsInputGroup);
 
-    let fatGroup = domService.createFormGroup();
+    const fatGroup = domService.createFormGroup();
 
-    let fatLabel = domService.createLabel(`fat-input-${suffix.toLowerCase()}`, `Fat:`);
+    const fatLabel = domService.createLabel(`fat-input-${suffix.toLowerCase()}`, `Fat:`);
 
-    let fatInputGroup = domService.createInputGroup();
-    let fatInput = domService.createNumberInput(`fat-input-${suffix.toLowerCase()}`, 1, 999, 'Enter fat');
-    let fatInputGroupSuffix = domService.createInputGroupAddOn('grams');
+    const fatInputGroup = domService.createInputGroup();
+    const fatInput = domService.createNumberInput(`fat-input-${suffix.toLowerCase()}`, 1, 999, 'Enter fat');
+    const fatInputGroupSuffix = domService.createInputGroupAddOn('grams');
 
     if(data.fat) {
         fatInput.value = data.fat;
@@ -119,13 +119,13 @@ function renderNutritionGroup(column, data, suffix) {
 }
 
 function renderContinueButton(column) {
-    let buttonColumn = domService.createColumn(12, 12);
+    const buttonColumn = domService.createColumn(12, 12);
 
-    let buttonGroup = domService.createFormGroup();
+    const buttonGroup = domService.createFormGroup();
     continueButton = domService.createButtonInput('stats-button', 'CONTINUE');
 
     continueButton.onclick = () => {
-        let hasErrors = saveValues();
+        const hasErrors = saveValues();
         if(!hasErrors && continueCallback) {
             continueCallback();
         }
@@ -138,11 +138,11 @@ function renderContinueButton(column) {
 }
 
 function saveValues() {
-    let proteinValues = getInputGroupValues(proteinInputs, 1, 999);
-    let fatValues = getInputGroupValues(fatInputs, 1, 999);
-    let carbsValues = getInputGroupValues(carbsInputs, 1, 9999);
+    const proteinValues = getInputGroupValues(proteinInputs, 1, 999);
+    const fatValues = getInputGroupValues(fatInputs, 1, 999);
+    const carbsValues = getInputGroupValues(carbsInputs, 1, 9999);
 
-    let hasErrors = proteinValues.hasErrors || fatValues.hasErrors || carbsValues.hasErrors;
+    const hasErrors = proteinValues.hasErrors || fatValues.hasErrors || carbsValues.hasErrors;
 
     if(hasErrors) {
         alert.show();
@@ -173,7 +173,7 @@ function saveValues() {
 }
 
 function getInputGroupValues(inputs, min, max) {
-    let values = [
+    const values = [
         parseInt(inputs[0].value),
         parseInt(inputs[1].value),
         parseInt(inputs[2].value)
@@ -182,7 +182,7 @@ function getInputGroupValues(inputs, min, max) {
     let hasErrors = false;
 
     values.forEach((currentValue, index) => {
-        let input = inputs[index];
+        const input = inputs[index];
 
         if (currentValue !== currentValue || (currentValue < min || currentValue > max)) {
             setErrorState(input);
@@ -226,6 +226,6 @@ function clearErrorState(formControl) {
     }
 }
 
-let instance = new NutritionComponent();
+const instance = new NutritionComponent();
 
 export default instance;
