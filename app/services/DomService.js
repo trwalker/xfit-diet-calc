@@ -2,20 +2,18 @@ let appAnchor = null;
 
 class DomService {
     getAppContainer() {
-        let standardContainer = null;
+        let container = null;
 
-        if(window.location.pathname.indexOf('/calc-draft.html') !== -1) {
-            const containerList = document.getElementsByClassName('standard-container');
+        if(window.location.pathname.indexOf('/nutrition-calculator') !== -1) {
+            container = document.getElementById('main');
 
-            if (containerList && containerList.length > 0) {
-                standardContainer = containerList[0];
-
+            if (container) {
                 appAnchor = document.createElement('span');
-                standardContainer.appendChild(appAnchor);
+                container.appendChild(appAnchor);
             }
         }
 
-        return standardContainer;
+        return container;
     }
 
     getPrintContainer() {
@@ -228,7 +226,7 @@ class DomService {
 
     createPrintLink() {
         const link = document.createElement('a');
-        link.setAttribute('href', 'print-plan.html');
+        link.setAttribute('href', 'http://yournutritionchallenge.com/print-plan.html');
         link.setAttribute('target', '_blank');
 
         const linkText = document.createElement('span');
@@ -254,7 +252,7 @@ class DomService {
 
     createIcon() {
         const icon = document.createElement('img');
-        icon.setAttribute('src', 'http://www.cfnsaz.com/wp-content/themes/crossfit/./img/cfns-logo2.png');
+        icon.setAttribute('src', 'http://yournutritionchallenge.com/wp-includes/images/cfns-logo2.png');
         icon.style.padding = '10px 0';
 
         return icon;

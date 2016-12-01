@@ -44,12 +44,12 @@ function renderPlanTable(container) {
 }
 
 function renderPrintLink(container) {
-    const downloadColumn = domService.createColumn(12, 12);
+    const printColumn = domService.createColumn(12, 12);
 
-    const downloadLink = domService.createPrintLink();
-    downloadColumn.appendChild(downloadLink);
+    const printLink = domService.createPrintLink();
+    printColumn.appendChild(printLink);
 
-    container.appendChild(downloadColumn);
+    container.appendChild(printColumn);
 }
 
 const instance = new PlanComponent();
